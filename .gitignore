@@ -1,0 +1,127 @@
+# ===============================
+
+#  Build & Java
+
+# ===============================
+
+HELP.md
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Keep wrapper jar
+
+.mvn/wrapper/maven-wrapper.jar
+
+# Ignore nested target folders except src
+
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ===============================
+
+# IDE - STS / Eclipse
+
+# ===============================
+
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# ===============================
+
+#  IDE - IntelliJ
+
+# ===============================
+
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ===============================
+
+# IDE - VS Code
+
+# ===============================
+
+.vscode/
+
+# ===============================
+
+#  Environment Configs (IMPORTANT)
+
+# ===============================
+
+# Ignore sensitive configs
+
+application-dev.properties
+application-prod.properties
+
+
+# ===============================
+
+#  Secrets / Env files
+
+# ===============================
+
+.env
+.env.*
+
+# ===============================
+
+#  Logs
+
+# ===============================
+
+logs/
+*.log
+
+# ===============================
+
+#  Docker
+
+# ===============================
+
+docker-compose.override.yml
+
+# ===============================
+
+#  Database / Local files
+
+# ===============================
+
+*.sql
+*.db
+
+
+# ===============================
+
+# AI / Ollama (optional)
+
+# ===============================
+
+.ollama/
+
+# ===============================
+
+#  OS Files
+
+# ===============================
+
+.DS_Store
+Thumbs.db
+
+# ===============================
+
+# Coverage / Reports
+
+# ===============================
+
+coverage/
