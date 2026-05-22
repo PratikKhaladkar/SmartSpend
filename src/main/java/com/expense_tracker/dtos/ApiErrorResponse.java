@@ -8,8 +8,6 @@ public class ApiErrorResponse {
 	private String message;
 	private Instant timestamp;
 
-	
-
 	public ApiErrorResponse(int status, String message) {
 		super();
 		this.status = status;

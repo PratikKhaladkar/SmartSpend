@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 public class RefreshToken {
   
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	
 	@NotBlank
@@ -36,7 +36,7 @@ public class RefreshToken {
 	private boolean isConsumed;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id",nullable = false)
 	private User user;
     
 	
@@ -49,8 +49,7 @@ public class RefreshToken {
 		super();
 		this.token =UUID.randomUUID().toString();
 		this.issuedAt = Instant.now();
-		this.expiry = issuedAt.plus(4,ChronoUnit.MINUTES);
-		//this.expiry = issuedAt.plus(7,ChronoUnit.DAYS);
+		this.expiry = issuedAt.plus(7,ChronoUnit.DAYS);
 		this.user = user;
 	}
 
@@ -92,6 +91,10 @@ public class RefreshToken {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public UUID getId() {
+		return id;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -40,6 +41,9 @@ public class AuthController {
 	private RefreshTokenService refreshTokenService;
 	
 	private AuthRequirements authService;
+	
+	@Value("${app.cookie.secure:false}")
+	private boolean secureCookie;
 
     
 	@Autowired
@@ -75,7 +79,7 @@ public class AuthController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletRequest request) {
+	public ResponseEntity<ApiResponseDto> login(@Valid @RequestBody LoginRequestDto requestDto, HttpServletRequest request) {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword()));
@@ -117,7 +121,7 @@ public class AuthController {
 		ResponseCookie refreshCookie = 
 				ResponseCookie.from("refreshToken", rotationalRefreshToken.getToken())
 				.httpOnly(true)
-				.secure(false)
+				.secure(secureCookie)
 				.path(request.getContextPath() + "/auth")
 				.maxAge(remainingSeconds)
 				.build();
@@ -143,7 +147,7 @@ public class AuthController {
 				ResponseCookie
 				.from("accessToken", "")
 				.httpOnly(true)
-				.secure(true)
+				.secure(secureCookie)
 				.path(request.getContextPath() + "/")
 				.maxAge(0) 
 				.build();
@@ -152,7 +156,7 @@ public class AuthController {
 				ResponseCookie
 				.from("refreshToken", "")
 				.httpOnly(true)
-				.secure(true)
+				.secure(secureCookie)
 				.path(request.getContextPath() + "/auth")
 				.maxAge(0) 
 				.build();

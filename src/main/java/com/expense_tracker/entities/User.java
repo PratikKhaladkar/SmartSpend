@@ -1,13 +1,7 @@
 package com.expense_tracker.entities;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,10 +16,10 @@ import jakarta.validation.constraints.NotBlank;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
 public class User  {
 
-	private static final long serialVersionUID = 1L;
+ 
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
 	@NotBlank
@@ -47,24 +41,23 @@ public class User  {
 		super();
 	
 	}
-
-
-	public User(String name, String email, String password) {
+	
+	public User( @NotBlank String name, @NotBlank String email, @NotBlank String password) {
 		super();
+		
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.createdAt = Instant.now();
+		
 	}
+
 
 
 	public UUID getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+	
 
 	public String getName() {
 		return name;

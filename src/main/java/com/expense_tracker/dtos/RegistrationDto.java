@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 
 public class RegistrationDto {
    
-	@NotBlank
+	@NotBlank(message = "Name required")
 	private String name;
 	
-	@Email
+	@Email(message = "Invalid email")
 	 private String email;
 	 
-	@NotBlank
+	@NotBlank(message = "Password required")
 	 private String password;
 
 	
