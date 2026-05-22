@@ -9,24 +9,23 @@ import org.springframework.stereotype.Service;
 import com.expense_tracker.entities.User;
 import com.expense_tracker.repositories.UserRepo;
 
-
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 
-	private UserRepo userRepo;
-	 
-	@Autowired
-	public void setUserRepo(UserRepo userRepo) {
+	private final UserRepo userRepo;
+
+	public AppUserDetailsService(UserRepo userRepo) {
+		super();
 		this.userRepo = userRepo;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		  
-		 User user = userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("Invalid email"));
-		 
-		 return new AppUserDetails(user);
-		
+
+		User user = userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Invalid email"));
+
+		return new AppUserDetails(user);
+
 	}
 
 }

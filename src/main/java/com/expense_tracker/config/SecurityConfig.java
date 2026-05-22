@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 import com.expense_tracker.security.jwt.JwtAccessDeniedHandler;
 import com.expense_tracker.security.jwt.JwtAuthenticationEntryPoint;
@@ -57,9 +59,11 @@ public class SecurityConfig  {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		
+
 		httpSecurity
-		.csrf(csrf->csrf.disable());
-		httpSecurity
+		    .csrf(csrf -> csrf.disable()
+		    )
+
 		.exceptionHandling(ex -> ex
 	            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 	            .accessDeniedHandler(jwtAccessDeniedHandler)

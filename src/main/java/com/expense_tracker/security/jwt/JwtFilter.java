@@ -10,8 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,51 +31,38 @@ private JwtFilterUtility jwtFilterUtility;
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
-	
-		  String jwtToken = jwtFilterUtility.extractAcessToken(request);
-		
-		  
-		 
-		 if(jwtToken!=null) {
-			 
-			
-			 
-		
-		if( SecurityContextHolder.getContext().getAuthentication()==null) {
 
-			UserDetails userDetails = jwtFilterUtility.autheticateToken(jwtToken);
+		String jwtToken = jwtFilterUtility.extractAcessToken(request);
 
-		  
-					 
-			   UsernamePasswordAuthenticationToken authentoken=
-					   new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		if (jwtToken != null) {
 
-			   authentoken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			if (SecurityContextHolder.getContext().getAuthentication() == null) {
 
-			   SecurityContextHolder.getContext().setAuthentication(authentoken);
-		   }
+				UserDetails userDetails = jwtFilterUtility.autheticateToken(jwtToken);
+
+				UsernamePasswordAuthenticationToken authentoken = new UsernamePasswordAuthenticationToken(userDetails,
+						null, userDetails.getAuthorities());
+
+				authentoken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+				SecurityContextHolder.getContext().setAuthentication(authentoken);
+			}
 		}
-		
-   
-	
-       
+
 		filterChain.doFilter(request, response);
 
 	}
-	
+
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
-	    String path = request.getServletPath();
-         
-	   
-	   if(path.startsWith("/auth/login") || path.startsWith("/auth/register")) {
-		   
-		   return true;
-	   }
-	   
-	   return false;
+		String path = request.getServletPath();
+
+		if (path.startsWith("/auth/login") || path.startsWith("/auth/register")) {
+
+			return true;
+		}
+
+		return false;
 	}
 
-	
 }

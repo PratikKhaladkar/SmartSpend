@@ -34,6 +34,9 @@ public class JwtFilterUtility {
 
 	@Value("${jwt.secret}")
 	private String stringkey;
+	
+	@Value("${app.cookie.secure:false}")
+	private boolean secureCookie;
 
 	private UserRepo userRepo;
 
@@ -63,7 +66,7 @@ public class JwtFilterUtility {
 		ResponseCookie accessCookie =
 			    ResponseCookie.from("accessToken", jwtToken)
 			        .httpOnly(true)
-			        .secure(false)
+			        .secure(secureCookie)
 			        .path(request.getContextPath()+ "/")
 			         .maxAge(15 * 60)
 			        .build();
@@ -85,7 +88,7 @@ public class JwtFilterUtility {
 		ResponseCookie accessCookie =
 			    ResponseCookie.from("accessToken", jwtToken)
 			        .httpOnly(true)
-			        .secure(false)
+			        .secure(secureCookie)
 			        .path(request.getContextPath() + "/")
 			        .maxAge(15 * 60)
 			        .build();

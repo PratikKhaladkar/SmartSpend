@@ -8,6 +8,7 @@ public class AiPoweredExpenseTrackerAndAdvisorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AiPoweredExpenseTrackerAndAdvisorApplication.class, args);
+
 	}
 
 }
