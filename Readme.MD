@@ -3,6 +3,45 @@
 A smart, AI-driven expense tracking application that lets users manage their finances and query their transaction data using **natural language**. Built with Spring Boot and powered by **Gemini 3.1 Flash-Lite** via Spring AI.
 
 ---
+## 📸 Application Screenshots
+
+### Dashboard
+<p align="center">
+  <img src="Images/dahsBoard.png" width="900">
+</p>
+
+### Demo 1
+<p align="center">
+  <img src="Images/demo1.png" width="900">
+</p>
+
+### Demo 2
+<p align="center">
+  <img src="Images/demo2.png" width="900">
+</p>
+
+### Demo 3
+<p align="center">
+  <img src="Images/demo3.png" width="900">
+</p>
+
+### Demo 4
+<p align="center">
+  <img src="Images/demo4.png" width="900">
+</p>
+
+### Recurring Transactions
+<p align="center">
+  <img src="Images/Recurring_transactions.png" width="900">
+</p>
+
+### Transactions
+<p align="center">
+  <img src="Images/Transactions.png" width="900">
+</p>
+
+---
+
 
 ## ✨ Features
 
@@ -100,7 +139,7 @@ http://localhost:8090/smartspend
 | GET | `/transaction/getAll` | Get all transactions |
 | PUT | `/transaction/edit/{tid}` | Edit a transaction |
 | DELETE | `/transaction/delete/{tid}` | Delete a transaction |
-| GET | `/transaction/filter` | Filter transactions by criteria |
+| POST | `/transaction/filter` | Filter transactions by criteria |
 
 ---
 

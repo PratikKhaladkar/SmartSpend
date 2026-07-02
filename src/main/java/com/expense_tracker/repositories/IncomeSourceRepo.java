@@ -26,13 +26,40 @@ public interface IncomeSourceRepo extends JpaRepository<IncomeSource, UUID> {
 		);
 	
 	@Query("""
+		    SELECT i FROM IncomeSource i
+		    WHERE i.name = :name
+		    AND  i.user.id = :userId
+		""")
+		Optional<IncomeSource> findByNameAndBelongsTOUser(
+		    @Param("name") String name, 
+		    @Param("userId") UUID userId
+		);
+	
+	@Query("""
 		    SELECT COUNT(i) > 0 FROM IncomeSource i
 		    WHERE i.name = :name
 		    AND (i.user IS NULL OR i.user.id = :userId)
 		""")
 		boolean isExistsByNameAndBelongsToDefaultOrUser(@Param("name") String name,
-		                                     @Param("userId") UUID userId);
+		                                      @Param("userId") UUID userId);
       
+	
+	@Query("""
+		    SELECT COUNT(i) > 0 FROM IncomeSource i
+		    WHERE i.name = :name
+		    AND i.user.id = :userId
+		""")
+	boolean isBelongsToUser(@Param("name") String name,
+		                                      @Param("userId") UUID userId);
+	
+	@Query("""
+		    SELECT COUNT(i) > 0 FROM IncomeSource i
+		    WHERE i.name = :name
+		    AND (i.user IS NULL)
+		""")
+	boolean isBelongsToSystem(@Param("name") String name);
+	
+	
 	@Query("""
 		    SELECT i FROM IncomeSource i
 		    WHERE i.user IS NULL OR i.user.id = :userId

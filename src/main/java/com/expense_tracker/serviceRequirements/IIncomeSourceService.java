@@ -8,6 +8,8 @@ public interface IIncomeSourceService {
   
 	
 	void createCustomIncomeSource(String incomesource);
+	
+	void editCustomIncomeSource(String currentIncomesource,String newIncomesource);
 
 	
 }

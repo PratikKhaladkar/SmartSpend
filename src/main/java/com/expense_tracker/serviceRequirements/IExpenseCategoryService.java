@@ -9,4 +9,6 @@ public interface IExpenseCategoryService  {
 	   
 	void createCustomExpenseCategory(String expenseCategory);
 	
+	void editCustomExpenseCategory(String currentExpenseCategory,String newExpenseCategory);
+	
 }

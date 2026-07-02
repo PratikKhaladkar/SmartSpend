@@ -77,7 +77,7 @@ public class TransactionController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping("/filter")
+	@PostMapping("/filter")
 	public ResponseEntity<List<TransactionResponseDto>> filterTransactions(@RequestBody FilterTransactionDto filterTransactionDto) {
 
 		   FilterResult filterResult = toolsService.filterTransactions(filterTransactionDto);

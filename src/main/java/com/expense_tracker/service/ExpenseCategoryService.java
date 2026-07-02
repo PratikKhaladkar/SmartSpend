@@ -2,10 +2,12 @@ package com.expense_tracker.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.expense_tracker.Exceptions.ExpenseCategoryAlreadyExists;
+import com.expense_tracker.Exceptions.ExpenseCatogoryNotFoundException;
 import com.expense_tracker.Exceptions.InvalidRequestExecption;
 import com.expense_tracker.entities.ExpenseCategory;
 import com.expense_tracker.entities.User;
@@ -47,6 +49,48 @@ public class ExpenseCategoryService implements IExpenseCategoryService {
 		}
 
 	}
+
+	@Override
+	@Transactional
+	public void editCustomExpenseCategory(String currentExpenseCategory, String newExpenseCategory) {
+
+		UUID userid = SecurityUtil.getAuthenticatedUser().getId();
+
+		if (currentExpenseCategory == null || currentExpenseCategory.length() == 0 || newExpenseCategory == null
+				|| newExpenseCategory.length() == 0) {
+
+			throw new InvalidRequestExecption("Expense category can-not be null or Blank");
+		}
+
+		currentExpenseCategory = currentExpenseCategory.toUpperCase();
+		newExpenseCategory = newExpenseCategory.toUpperCase();
+
+		if (expenseCategoryRepo.isBelongsToSystem(currentExpenseCategory)) {
+
+			throw new InvalidRequestExecption(
+					"can-not edit deault expesnse category,can edit only you custom created categories");
+		}
+
+		if (expenseCategoryRepo.isExistsByNameAndBelongsToDefaultOrUser(newExpenseCategory, userid)) {
+
+			throw new ExpenseCategoryAlreadyExists("Expense category:" + newExpenseCategory + " already exists");
+		}
+
+		if (!expenseCategoryRepo.isBelongsToUser(currentExpenseCategory, userid)) {
+
+			throw new ExpenseCatogoryNotFoundException("You have no expenseCategory named:" + currentExpenseCategory);
+
+		}
+
+		ExpenseCategory expenseCategoryfromdb = expenseCategoryRepo
+				.findByNameAndBelongsToUser(currentExpenseCategory, userid).orElseThrow();
+
+		expenseCategoryfromdb.setName(newExpenseCategory);
+
+		expenseCategoryRepo.save(expenseCategoryfromdb);
+
+	}
+
 
 	
 }

@@ -25,6 +25,16 @@ public interface ExpenseCategoryRepo extends JpaRepository<ExpenseCategory, UUID
 		    @Param("name") String name, 
 		    @Param("userId") UUID userId
 		);
+	
+	@Query("""
+		    SELECT c FROM ExpenseCategory c
+		    WHERE c.name = :name
+		    AND c.user.id = :userId
+		""")
+		Optional<ExpenseCategory> findByNameAndBelongsToUser(
+		    @Param("name") String name, 
+		    @Param("userId") UUID userId
+		);
 	 
 	@Query("""
 		    SELECT COUNT(c) > 0 FROM ExpenseCategory c
@@ -33,6 +43,26 @@ public interface ExpenseCategoryRepo extends JpaRepository<ExpenseCategory, UUID
 		""")
 		boolean isExistsByNameAndBelongsToDefaultOrUser(@Param("name") String name,
 		                                     @Param("userId") UUID userId);
+	  
+	   
+	@Query("""
+		    SELECT COUNT(c) > 0
+		    FROM ExpenseCategory c
+		    WHERE c.name = :name
+		    AND c.user.id = :userId
+		""")
+	boolean isBelongsToUser(@Param("name") String name,
+		                                     @Param("userId") UUID userId);
+	
+	
+	   
+		@Query("""
+			    SELECT COUNT(c) > 0
+			    FROM ExpenseCategory c
+			    WHERE c.name = :name
+			    AND (c.user IS NULL)
+			""")
+		boolean isBelongsToSystem(@Param("name") String name);
 	
 	@Query("""
 		    SELECT c FROM ExpenseCategory c
